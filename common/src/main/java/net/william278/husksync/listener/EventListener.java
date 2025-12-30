@@ -114,6 +114,15 @@ public abstract class EventListener {
      * Handle the plugin disabling
      */
     public void handlePluginDisable() {
+        final int playerCount = plugin.getOnlineUsers().size();
+        final long delay = Math.min(100 + (playerCount * 2L), 5000);
+
+        try {
+            Thread.sleep(delay);
+        } catch (InterruptedException ignored) {
+            Thread.currentThread().interrupt();
+        }
+
         // Save for all online players.
         plugin.getOnlineUsers().stream()
                 .filter(user -> !plugin.isLocked(user.getUuid()) && !user.isNpc())
